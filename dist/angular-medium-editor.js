@@ -14,7 +14,7 @@ angular.module('angular-medium-editor', [])
 
         // Parse options
         var opts = {},
-            placeholder = '';
+            placeholder = false;
         var prepOpts = function() {
           if (iAttrs.options) {
             opts = scope.$eval(iAttrs.options);
@@ -36,7 +36,7 @@ angular.module('angular-medium-editor', [])
           prepOpts();
           // Hide placeholder when the model is not empty
           if (!ctrl.$isEmpty(ctrl.$viewValue)) {
-            opts.placeholder = '';
+            opts.placeholder = false;
           }
           ctrl.editor = new MediumEditor(iElement, opts);
         });
@@ -58,7 +58,7 @@ angular.module('angular-medium-editor', [])
 
         // view -> model
         iElement.on('blur', onChange);
-        iElement.on('input', onChange);
+        iElement.on('input textinput selectionchange keydown keyup', onChange);
 
         // model -> view
         ctrl.$render = function() {
@@ -66,9 +66,8 @@ angular.module('angular-medium-editor', [])
           if (!this.editor) {
             // Hide placeholder when the model is not empty
             if (!ctrl.$isEmpty(ctrl.$viewValue)) {
-              opts.placeholder = '';
+              opts.placeholder = false;
             }
-
             this.editor = new MediumEditor(iElement, opts);
           }
 
@@ -78,6 +77,11 @@ angular.module('angular-medium-editor', [])
           if(!ctrl.$isEmpty(ctrl.$viewValue)) angular.element(iElement).removeClass('medium-editor-placeholder'); 
         };
 
+        scope.$on('$destroy', function() {
+          if(ctrl.editor) {
+            ctrl.editor.destroy();
+          }
+        });
       }
     };
 
