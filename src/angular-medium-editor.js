@@ -14,7 +14,7 @@ angular.module('angular-medium-editor', [])
 
         // Parse options
         var opts = {},
-            placeholder = '';
+            placeholder = false;
         var prepOpts = function() {
           if (iAttrs.options) {
             opts = scope.$eval(iAttrs.options);
@@ -36,7 +36,7 @@ angular.module('angular-medium-editor', [])
           prepOpts();
           // Hide placeholder when the model is not empty
           if (!ctrl.$isEmpty(ctrl.$viewValue)) {
-            opts.placeholder = '';
+            opts.placeholder = false;
           }
           ctrl.editor = new MediumEditor(iElement, opts);
         });
@@ -66,9 +66,8 @@ angular.module('angular-medium-editor', [])
           if (!this.editor) {
             // Hide placeholder when the model is not empty
             if (!ctrl.$isEmpty(ctrl.$viewValue)) {
-              opts.placeholder = '';
+              opts.placeholder = false;
             }
-
             this.editor = new MediumEditor(iElement, opts);
           }
 
