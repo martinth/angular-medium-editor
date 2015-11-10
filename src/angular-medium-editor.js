@@ -78,6 +78,11 @@ angular.module('angular-medium-editor', [])
           if(!ctrl.$isEmpty(ctrl.$viewValue)) angular.element(iElement).removeClass('medium-editor-placeholder'); 
         };
 
+        scope.$on('$destroy', function() {
+          if(ctrl.editor) {
+            ctrl.editor.destroy();
+          }
+        });
       }
     };
 
